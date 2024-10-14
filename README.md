@@ -20,15 +20,15 @@ samples, guidance on mobile development, and a full API reference.
 <h3 align="center"><i>Platform Converter</i></h3>
 <h1></h1>
 <div align="center">
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img1.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img2.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img3.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img4.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img5.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img6.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img7.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img8.png" height=450px hspace=20>
-<img src="https://github.com/Prafulpatnecha/advance_flutter_ch3/blob/master/img9.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img1.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img2.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img3.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img4.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img5.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img6.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img7.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img8.png" height=450px hspace=20>
+<img src="https://github.com/Prafulpatnecha/platform_converter_app/blob/master/img10.png" height=450px hspace=20>
 
 
 </div>
@@ -38,5 +38,3 @@ samples, guidance on mobile development, and a full API reference.
 <a href="">-> Code Link <-</a>
 </div>
 <h1></h1>
-
-
