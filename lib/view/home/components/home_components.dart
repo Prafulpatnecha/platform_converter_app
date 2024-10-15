@@ -49,8 +49,131 @@ Scaffold platformAndroidScaffold(PlatformController platformController,
     body: TabBarView(
       children: [
         saveContactSingleChildScrollView(context),
-        Container(),
-        Container(),
+        (homeGetController.shareList.isNotEmpty)?ListView.builder(//todo chats
+          itemCount: homeGetController.shareList.length,
+          itemBuilder: (context, index) => ListTile(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    CircleAvatar(
+                      backgroundImage: FileImage(File(homeGetController
+                          .shareList[index]
+                          .split("!")
+                          .sublist(5, 6)
+                          .join(' '))),
+                      radius: 70,
+                    ),
+                    Text(
+                      homeGetController.shareList[index]
+                          .split("!")
+                          .sublist(0, 1)
+                          .join(' '),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                    ),
+                    Text(homeGetController.shareList[index]
+                        .split("!")
+                        .sublist(2, 3)
+                        .join(' ')),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                        IconButton(
+                            onPressed: () {
+                              homeGetController.shareList.removeAt(index);
+                              homeGetController.removeShareListMethod();
+                              Get.back();
+                            },
+                            icon: const Icon(Icons.delete)),
+                      ],
+                    ),
+                    TextButton(
+                        style: ButtonStyle(
+                            side: WidgetStatePropertyAll(
+                                BorderSide(color: Colors.black))),
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: const Text("Cancel"))
+                  ],
+                ),
+              );
+            },
+            leading: CircleAvatar(
+              backgroundImage: FileImage(File(homeGetController.shareList[index]
+                  .split("!")
+                  .sublist(5, 6)
+                  .join(' '))),
+              radius: 40,
+            ),
+            title: Text(
+              homeGetController.shareList[index]
+                  .split("!")
+                  .sublist(0, 1)
+                  .join(' '),
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(homeGetController.shareList[index]
+                .split("!")
+                .sublist(2, 3)
+                .join(' ')),
+            trailing: Text(
+              homeGetController.shareList[index]
+                      .split("!")
+                      .sublist(4, 5)
+                      .join(' ') +
+                  "," +
+                  homeGetController.shareList[index]
+                      .split("!")
+                      .sublist(3, 4)
+                      .join(' '),
+              style: TextStyle(fontSize: 13),
+            ),
+          ).paddingSymmetric(vertical: 10),
+        ):Center(
+          child: Text("No any chats yet..."),
+        ),
+      (homeGetController.shareList.isNotEmpty)?ListView.builder(
+          itemCount: homeGetController.shareList.length,
+          itemBuilder: (context, index) => ListTile(
+              leading: CircleAvatar(
+                backgroundImage: FileImage(File(homeGetController
+                    .shareList[index]
+                    .split("!")
+                    .sublist(5, 6)
+                    .join(' '))),
+                radius: 40,
+              ),
+              title: Text(
+                homeGetController.shareList[index]
+                    .split("!")
+                    .sublist(0, 1)
+                    .join(' '),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(homeGetController.shareList[index]
+                  .split("!")
+                  .sublist(2, 3)
+                  .join(' ')),
+              trailing: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.call,
+                    color: Colors.green,
+                  ))).paddingSymmetric(vertical: 10),
+        ):Center(
+      child: Text("No any calls yet..."),
+  ),
         SizedBox(
           child: SingleChildScrollView(
             child: Obx(
@@ -122,35 +245,100 @@ ListTile settingSetListTile(
   );
 }
 
-CircleAvatar settingCircleAvatar() {
-  return CircleAvatar(
-    radius: 70,
-    child: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.add_a_photo_outlined,
-          size: 30,
-        )),
+Widget settingCircleAvatar() {
+  return GetBuilder<HomeGetController>(
+    builder: (context) {
+      return (homeGetController.profileFileImage == null)
+          ? CircleAvatar(
+              radius: 70,
+              child: IconButton(
+                  onPressed: () async {
+                    try {
+                      ImagePicker imagePick = ImagePicker();
+                      XFile? xFileImage =
+                          await imagePick.pickImage(source: ImageSource.camera);
+                      homeGetController.profileFileImage = File(xFileImage!.path);
+                      homeGetController.methodUpdate();
+                    } catch (e) {
+                      Get.log("Image Done Not");
+                    }
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    size: 30,
+                  )),
+            )
+          : CircleAvatar(
+              radius: 70,
+              backgroundImage: FileImage(homeGetController.profileFileImage!.absolute),
+              child: GestureDetector(
+                onTap: () async {
+                  try {
+                    ImagePicker imagePick = ImagePicker();
+                    XFile? xFileImage =
+                        await imagePick.pickImage(source: ImageSource.camera);
+                    homeGetController.profileFileImage = File(xFileImage!.path);
+                    homeGetController.methodUpdate();
+                  } catch (e) {
+                    Get.log("Image Done Not");
+                  }
+                },
+              ),
+            );
+    }
   );
 }
 
-CircleAvatar iosSettingCircleAvatar() {
-  return CircleAvatar(
-    radius: 70,
-    backgroundColor: CupertinoColors.activeBlue,
-    child: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          CupertinoIcons.camera,
-          size: 30,
-          color: Colors.white,
-        )),
+Widget iosSettingCircleAvatar() {
+  return GetBuilder<HomeGetController>(
+    builder: (context) {
+      return (homeGetController.profileFileImage == null)
+          ?CircleAvatar(
+        radius: 70,
+        backgroundColor: CupertinoColors.activeBlue,
+        child: IconButton(
+            onPressed: () async {
+              try {
+                ImagePicker imagePick = ImagePicker();
+                XFile? xFileImage =
+                await imagePick.pickImage(source: ImageSource.camera);
+                homeGetController.profileFileImage = File(xFileImage!.path);
+                homeGetController.methodUpdate();
+              } catch (e) {
+                Get.log("Image Done Not");
+              }
+            },
+            icon: Icon(
+              CupertinoIcons.camera,
+              size: 30,
+              color: Colors.white,
+            )),
+      ):CircleAvatar(
+        radius: 70,
+        backgroundColor: CupertinoColors.activeBlue,
+        backgroundImage: FileImage(homeGetController.profileFileImage!.absolute),
+        child: GestureDetector(
+          onTap: () async {
+            try {
+              ImagePicker imagePick = ImagePicker();
+              XFile? xFileImage =
+              await imagePick.pickImage(source: ImageSource.camera);
+              homeGetController.profileFileImage = File(xFileImage!.path);
+              homeGetController.methodUpdate();
+            } catch (e) {
+              Get.log("Image Done Not");
+            }
+          },
+        ),
+      );
+    }
   );
 }
 
 List<Widget> iosSettingWidgetList = [
   iosSettingCircleAvatar(),
   TextFormField(
+    controller: homeGetController.textUserName,
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.center,
     decoration: InputDecoration(
@@ -168,6 +356,7 @@ List<Widget> iosSettingWidgetList = [
     ),
   ),
   TextFormField(
+    controller: homeGetController.textUserBio,
     textInputAction: TextInputAction.done,
     textAlign: TextAlign.center,
     style: TextStyle(color: Colors.grey.shade600),
@@ -188,14 +377,23 @@ List<Widget> iosSettingWidgetList = [
   Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      TextButton(onPressed: () {}, child: Text("Save".toUpperCase())),
-      TextButton(onPressed: () {}, child: Text("Clear".toUpperCase()))
+      TextButton(
+          onPressed: () {
+            homeGetController.shareProfileLocalStorage();
+          },
+          child: Text("Save".toUpperCase())),
+      TextButton(
+          onPressed: () {
+            homeGetController.removeShareProfileListMethod();
+          },
+          child: Text("Clear".toUpperCase()))
     ],
   )
 ];
 List<Widget> settingWidgetList = [
   settingCircleAvatar(),
   TextFormField(
+    controller: homeGetController.textUserName,
     textInputAction: TextInputAction.next,
     textAlign: TextAlign.center,
     decoration: InputDecoration(
@@ -213,6 +411,7 @@ List<Widget> settingWidgetList = [
     ),
   ),
   TextFormField(
+    controller: homeGetController.textUserBio,
     textInputAction: TextInputAction.done,
     textAlign: TextAlign.center,
     style: TextStyle(color: Colors.grey.shade600),
@@ -233,8 +432,16 @@ List<Widget> settingWidgetList = [
   Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      TextButton(onPressed: () {}, child: Text("Save".toUpperCase())),
-      TextButton(onPressed: () {}, child: Text("Clear".toUpperCase()))
+      TextButton(
+          onPressed: () {
+            homeGetController.shareProfileLocalStorage();
+          },
+          child: Text("Save".toUpperCase())),
+      TextButton(
+          onPressed: () {
+            homeGetController.removeShareProfileListMethod();
+          },
+          child: Text("Clear".toUpperCase()))
     ],
   )
 ];
@@ -359,12 +566,17 @@ SingleChildScrollView saveContactSingleChildScrollView(BuildContext context) {
                   } catch (e) {
                     log("Date Is Not Pick");
                   }
+                  homeGetController.methodUpdate();
                 },
                 icon: const Icon(Icons.calendar_month)),
-            const Text(
-              "Pick Date",
-              style: TextStyle(),
-            )
+             GetBuilder<HomeGetController>(
+               builder: (context) {
+                 return Text(
+                  (homeGetController.date==null)?"Pick Date":"${homeGetController.date!.day}/${homeGetController.date!.month}/${homeGetController.date!.year}",
+                  style: TextStyle(),
+                             );
+               }
+             )
           ],
         ).paddingSymmetric(vertical: 3, horizontal: 12),
         Row(
@@ -381,11 +593,16 @@ SingleChildScrollView saveContactSingleChildScrollView(BuildContext context) {
                   } catch (e) {
                     log("Time Is Not Pick");
                   }
+                  homeGetController.methodUpdate();
                 },
                 icon: const Icon(Icons.access_time_outlined)),
-            const Text(
-              "Pick Time",
-              style: TextStyle(),
+            GetBuilder<HomeGetController>(
+              builder: (context) {
+                return Text(
+                  (homeGetController.timeOfDay==null)?"Pick Time":"${homeGetController.timeOfDay!.hour}:${homeGetController.timeOfDay!.minute}",
+                  style: const TextStyle(),
+                );
+              }
             )
           ],
         ).paddingSymmetric(horizontal: 12),
@@ -403,6 +620,7 @@ SingleChildScrollView saveContactSingleChildScrollView(BuildContext context) {
                 homeGetController.timeOfDay != null &&
                 homeGetController.fileImage != null) {
               homeGetController.shareLocalStorage();
+              homeGetController.methodUpdate();
             } else {
               Get.snackbar("Contact", "Field Must Be Required");
             }
