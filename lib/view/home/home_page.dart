@@ -58,6 +58,7 @@ class HomePage extends StatelessWidget {
                 body: CupertinoTabView(
                   builder: (BuildContext context) => CupertinoPageScaffold(
                     navigationBar: CupertinoNavigationBar(
+                      backgroundColor: (homeGetController.themeSetting.value!=true)?CupertinoColors.systemGrey5:CupertinoColors.darkBackgroundGray,
                       trailing: CupertinoSwitch(
                         value: platformController.platformControlling.value,
                         onChanged: (value) {
@@ -65,7 +66,7 @@ class HomePage extends StatelessWidget {
                               platformController.platformControlling);
                         },
                       ),
-                      middle: const Text("Platform Converter"),
+                      middle: Text("Platform Converter",style: TextStyle(color: (homeGetController.themeSetting.value!=true)?CupertinoColors.black:CupertinoColors.white,),),
                     ),
                     child: iosPageList[indexSet],
                   ),
@@ -234,7 +235,7 @@ Widget fourPageSettingColumn() {
     () => Column(
       children: [
         SizedBox(
-          height: 80,
+          height: 10,
         ),
         iosSettingSetListTile(
           textSet: "Profile",
@@ -285,7 +286,7 @@ Widget firstPageColumn() {
   return Column(
     children: [
       SizedBox(
-        height: 90,
+        height: 10,
         width: double.infinity,
       ),
       GetBuilder<HomeGetController>(builder: (context) {
@@ -332,7 +333,7 @@ Widget firstPageColumn() {
               );
       }),
       SizedBox(
-        height: 25,
+        height: 15,
       ),
       createCupertinoTextFormFieldRow(
               textFind: "Full Name",
